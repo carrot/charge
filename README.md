@@ -19,7 +19,7 @@ If you are serving a static site through node, we all know you can use [connect]
 - You could make certainly files inaccessible via the server, but still exist in the project
 - You could inject a piece of markup or a script into any page before it's served
 
-All of these things would be great, but are conveniences you usually expect from a dynamic, not a static site. These are just some of the capapbilities of charge, a server for those who are serious about static sites.
+All of these things would be great, but are conveniences you usually expect from a dynamic, not a static site. These are just some of the capabilities of charge, a server for those who are serious about static sites.
 
 ### Installation
 
@@ -27,7 +27,7 @@ All of these things would be great, but are conveniences you usually expect from
 
 ### Usage
 
-Charge was built from the ground up to be as flexible as possible. At its core, charge is simply a collection of middleware packages, each of which is available as its own module as well. You can access each of these packages on the Charge class itself if you'd like to use and configure them entirely on your own:
+Charge was built from the ground up to be as flexible as possible. At its core, charge is simply a collection of middleware packages, each of which is available as its own module as well. You can access each of these packages on the `Charge` class itself if you'd like to use and configure them entirely on your own:
 
 ```js
 var Charge = require('charge');

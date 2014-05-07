@@ -62,7 +62,8 @@ http.createServer(app).listen(1111);
 - `Charge.hygienist` (clean urls)  
 https://github.com/carrot/hygienist-middleware
 
-- `Charge.apologist` (custom error pages)   https://github.com/carrot/apologist-middleware
+- `Charge.apologist` (custom error pages)  
+https://github.com/carrot/apology-middleware
 
 - `Charge.escapist` (ignore files)  
 https://github.com/carrot/escapist-middleware

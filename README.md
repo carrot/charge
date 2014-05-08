@@ -27,31 +27,31 @@ All of these things would be great, but are conveniences you usually expect from
 
 ### Usage
 
-Charge was built from the ground up to be as flexible as possible. At its core, charge is simply a collection of middleware packages, each of which is available as its own module as well. You can access each of these packages on the `Charge` class itself if you'd like to use and configure them entirely on your own:
+Charge was built from the ground up to be as flexible as possible. At its core, charge is simply a collection of middleware packages, each of which is available as its own module as well. You can access each of these packages on the `charge` function itself if you'd like to use and configure them entirely on your own:
 
 ```js
-var Charge = require('charge');
+var charge = require('charge');
 
-Charge.hygienist // (clean urls) https://github.com/carrot/hygienist-middleware
-Charge.apologist // (custom error pages) https://github.com/carrot/apologist-middleware
-Charge.escapist // (ignore files) https://github.com/carrot/escapist-middleware
-Charge.archivist // (cache control) https://github.com/carrot/archivist-middleware
-Charge.pathologist // (custom routes) https://github.com/carrot/pathologist-middleware
-Charge.publicist // (basic auth) https://github.com/visionmedia/node-basic-auth
-Charge.journalist // (inject content) https://github.com/samccone/infestor
+charge.hygienist // (clean urls) https://github.com/carrot/hygienist-middleware
+charge.apologist // (custom error pages) https://github.com/carrot/apologist-middleware
+charge.escapist // (ignore files) https://github.com/carrot/escapist-middleware
+charge.archivist // (cache control) https://github.com/carrot/archivist-middleware
+charge.pathologist // (custom routes) https://github.com/carrot/pathologist-middleware
+charge.publicist // (basic auth) https://github.com/visionmedia/node-basic-auth
+charge.journalist // (inject content) https://github.com/samccone/infestor
 ```
 
 Each of these expose a function that accepts the `root` of the site you are serving as the first argument, and an options object as the second, and returns a middleware function (compatible with [connect](http://www.senchalabs.org/connect/), [express](http://expressjs.com/4x/api.html#middleware) and similar middleware stacks). See the individual repos for details on the options.
 
-You can also instantiate the `Charge` class, which creates a `connect` instance with all the middleware described previously already added. The constructor takes a `root` path and an options object which represents options for each of the middleware merged together. As is the case with any connect object, you can pass this to `http.createServer` to create a server:
+You can also call `charge` function, which returns a `connect` instance with all the middleware described previously already added. The function takes a `root` path and an options object which represents options for each of the middleware merged together. As is the case with any connect object, you can pass this to `http.createServer` to create a server:
 
 ```js
-var Charge = require('charge'),
+var charge = require('charge'),
     http = require('http');
 
-// a charge instance is just a connect instance, so you can add more middleware
-// or do anything else you would with a connect server here if you want
-var app = new Charge('./public', { option: 'value' });
+// the charge function returns a connect instance, so you can add more
+// middleware or do anything else you would with a connect app here if you want
+var app = charge('./public', { option: 'value' });
 app.use(some_other_middleware);
 
 http.createServer(app).listen(1111);
@@ -59,25 +59,25 @@ http.createServer(app).listen(1111);
 
 #### Middleware Stack
 
-- `Charge.hygienist` (clean urls)  
+- `charge.hygienist` (clean urls)
 https://github.com/carrot/hygienist-middleware
 
-- `Charge.apologist` (custom error pages)  
+- `charge.apologist` (custom error pages)
 https://github.com/carrot/apology-middleware
 
-- `Charge.escapist` (ignore files)  
+- `charge.escapist` (ignore files)
 https://github.com/carrot/escapist-middleware
 
-- `Charge.archivist` (cache control)  
+- `charge.archivist` (cache control)
 https://github.com/carrot/archivist-middleware
 
-- `Charge.pathologist` (custom routes)  
+- `charge.pathologist` (custom routes)
 https://github.com/carrot/pathologist-middleware
 
-- `Charge.publicist` (basic auth)  
+- `charge.publicist` (basic auth)
 https://github.com/visionmedia/node-basic-auth
 
-- `Charge.journalist` (inject content)  
+- `charge.journalist` (inject content)
 https://github.com/samccone/infestor
 
 
@@ -94,7 +94,7 @@ Charge accepts options for each piece of middleware that it unifies (which is a 
 ```
 
 ```js
-var app = new Charge('./public', '/path/to/config.json' );
+var app = charge('./public', '/path/to/config.json' );
 ```
 
 We've done our best to make these options interoperable with [divshot.io's configuration interface](http://docs.divshot.com/guides/configuration) so that it can be seamlessly deployed to their wonderful static hosting environment.
@@ -121,10 +121,10 @@ Getting websockets set up can be a little confusing if you've never done it befo
 Charge can create a server for you that is enhanced with utilities for interacting with the page via websockets. This is a great way to make a static page more dynamic by receiving information from the server and handling it with javascript. For example:
 
 ```js
-var Charge = require('charge'),
+var charge = require('charge'),
     http = require('http');
 
-var app = new Charge('./public', { option: 'value' });
+var app = charge('./public', { option: 'value' });
 
 app.start({ port: 1111 }).then(function(server){
   // the `server` object is just a node http server, decorated with a few extra

@@ -25,6 +25,8 @@ charge = (root, opts) ->
   opts = defaults parse_options(root, opts),
     clean_urls: false
 
+  if opts.root then root = path.resolve(opts.root)
+
   app = connect()
 
   if opts.clean_urls then app.use(hygienist(root))

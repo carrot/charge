@@ -15,7 +15,8 @@
     "coffeelint": "*",
     "istanbul": "*",
     "mocha-lcov-reporter": "*",
-    "coffee-script": "1.7.x"
+    "coffee-script": "1.7.x",
+    "chai-http": "^0.4.0"
   },
   "scripts": {
     "test": "npm run lint && mocha",
@@ -24,5 +25,15 @@
   },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "hygienist-middleware": "0.0.1",
+    "escapist-middleware": "0.0.1",
+    "archivist-middleware": "0.0.1",
+    "alchemist-middleware": "0.0.2",
+    "apology-middleware": "0.0.1",
+    "publicist-middleware": "0.0.1",
+    "infestor": "0.2.0",
+    "connect": "3.x"
   }
 }

@@ -15,13 +15,15 @@
     "coffeelint": "*",
     "istanbul": "*",
     "mocha-lcov-reporter": "*",
+    "coveralls": "*",
     "coffee-script": "1.7.x",
     "chai-http": "^0.4.0"
   },
   "scripts": {
     "test": "npm run lint && mocha",
     "lint": "find lib/ -name '*.coffee' | xargs coffeelint",
-    "coverage": "make build; istanbul cover _mocha --report html -- -R spec && open coverage/index.html && make unbuild"
+    "coverage": "make build; istanbul cover _mocha --report html -- -R spec && open coverage/index.html && make unbuild",
+    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild"
   },
   "engines": {
     "node": ">=0.10.0"

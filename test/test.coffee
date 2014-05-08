@@ -31,6 +31,9 @@ describe 'options', ->
   it 'should throw if invalid options passed', ->
     (-> charge(basic_path, false)).should.throw('invalid options')
 
+  it 'should override root if root option is passed', ->
+    charge(basic_path, { root: path.join(base_path, 'alt') }).stack.should.have.lengthOf(7)
+
 describe 'instance', ->
 
   before -> @app = charge(basic_path)

@@ -1,4 +1,5 @@
 http = require 'http'
+basic_path = path.join(base_path, 'basic')
 
 describe 'class', ->
 
@@ -11,9 +12,28 @@ describe 'class', ->
     charge.apologist.should.be.a 'function'
     charge.publicist.should.be.a 'function'
 
+describe 'options', ->
+
+  it 'should take a string and load from a json file', ->
+    charge(basic_path, 'conf.json').stack.should.have.lengthOf(8)
+
+  it 'should take an object', ->
+    charge(basic_path, { clean_urls: true }).stack.should.have.lengthOf(8)
+
+  it 'should load from a default config if no options provided', ->
+    charge(path.join(base_path, 'charge-json')).stack.should.have.lengthOf(8)
+    charge(path.join(base_path, 'superstatic-json')).stack.should.have.lengthOf(8)
+    charge(path.join(base_path, 'divshot-json')).stack.should.have.lengthOf(8)
+
+  it 'should have no options if no default configs present', ->
+    charge(basic_path).stack.should.have.lengthOf(7)
+
+  it 'should throw if invalid options passed', ->
+    (-> charge(basic_path, false)).should.throw('invalid options')
+
 describe 'instance', ->
 
-  before -> @app = charge(path.join(base_path, 'basic'))
+  before -> @app = charge(basic_path)
 
   it 'is an instance of connect', ->
     @app.should.be.a 'function'

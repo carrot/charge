@@ -1,5 +1,6 @@
 http = require 'http'
 basic_path = path.join(base_path, 'basic')
+opts_path = path.join(base_path, 'options')
 
 describe 'class', ->
 
@@ -33,6 +34,56 @@ describe 'options', ->
 
   it 'should override root if root option is passed', ->
     charge(basic_path, { root: path.join(base_path, 'alt') }).stack.should.have.lengthOf(7)
+
+  it 'should use clean urls if clean_urls is passed', (done) ->
+    app = charge(opts_path, 'clean_urls.json')
+
+    chai.request(app).get('/index.html').res (res) ->
+      res.redirects[0].should.match /index$/
+      done()
+
+  it 'should exclude files if exclude is passed', (done) ->
+    app = charge(opts_path, 'exclude.json')
+
+    chai.request(app).get('/index.html').res (res) ->
+      res.should.have.status(404)
+      done()
+
+  it 'should use basic auth if auth is passed', (done) ->
+    app = charge(opts_path, 'auth.json')
+
+    chai.request(app).get('/').res (res) ->
+      res.should.have.status(401)
+      done()
+
+  it 'should cache correctly if cache_control is passed', (done) ->
+    app = charge(opts_path, 'cache_control.json')
+
+    chai.request(app).get('/').res (res) ->
+      res.headers['cache-control'].should.equal('wow')
+      done()
+
+  it 'should modify alchemist settings if url and/or gzip are passed', (done) ->
+    app = charge(opts_path, 'alchemist.json')
+
+    chai.request(app).get('/test').res (res) ->
+      should.not.exist(res.headers['content-encoding'])
+      res.should.have.status(200)
+      done()
+
+  it.skip 'should use a custom error page if error_page is passed', (done) ->
+    app = charge(opts_path, 'error_page.json')
+
+    chai.request(app).get('/foo').res (res) ->
+      res.text.should.equal("<p>flagrant error!</p>")
+      done()
+
+  it.skip 'should inject content if write is passed', (done) ->
+    app = charge(opts_path, 'write.json')
+
+    chai.request(app).get('/').res (res) ->
+      res.text.should.match /hello there!/
+      done()
 
 describe 'instance', ->
 

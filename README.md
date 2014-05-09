@@ -93,7 +93,7 @@ Charge accepts options for each piece of middleware that it unifies (which is a 
   "exclude": ['some_file', '*/another.file'],
   "cache_control": { '**': 3600000 },
   "routes": { "**": "index.html" },
-  "inject": { content: "hello!" },
+  "write": { content: "hello!" },
   "url": "/static",
   "gzip": true
 }

@@ -30,13 +30,13 @@ charge = (root, opts) ->
   app = connect()
 
   if opts.clean_urls then app.use(hygienist(root))
-  app.use(pathologist())
-  app.use(escapist())
-  app.use(publicist())
-  app.use(archivist())
-  app.use(journalist())
-  app.use(alchemist(root))
-  app.use(apologist())
+  app.use(pathologist(opts.routes))
+  app.use(escapist(opts.exclude))
+  app.use(publicist(opts.auth))
+  app.use(archivist(opts.cache_control))
+  app.use(journalist(opts.inject))
+  app.use(alchemist(root, { url: opts.url, gzip: opts.gzip }))
+  app.use(apologist(opts.error_page))
 
   return app
 

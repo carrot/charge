@@ -83,21 +83,29 @@ https://github.com/samccone/infestor
 
 #### Options
 
-Charge accepts options for each piece of middleware that it unifies (which is a bunch). Since this can end up being a large options object, you can alternately structure your options in a json file that you pass as a string.
+Charge accepts options for each piece of middleware that it unifies (which is a bunch). Since this can end up being a large options object, you can alternately structure your options in a json file that you pass as a string. Below is an example of a json object representing all of the possible options:
 
 ```js
 {
   "clean_urls": true,
   "error_page": "error.html",
-  "auth": "username:password"
+  "auth": "username:password",
+  "exclude": ['some_file', '*/another.file'],
+  "cache_control": { '**': 3600000 },
+  "routes": { "**": "index.html" },
+  "inject": { content: "hello!" },
+  "url": "/static",
+  "gzip": true
 }
 ```
+
+To load a file like this, you can pass the path to it as a second argument to `charge`. Alternately, you can name the file `charge.json`, and if it's in the same directory as the project root, it will be loaded automatically. Below is an example of manually loading a custom path:
 
 ```js
 var app = charge('./public', '/path/to/config.json' );
 ```
 
-We've done our best to make these options interoperable with [divshot.io's configuration interface](http://docs.divshot.com/guides/configuration) so that it can be seamlessly deployed to their wonderful static hosting environment.
+All the options the charge takes are interoperable with [divshot.io's configuration interface](http://docs.divshot.com/guides/configuration) so that it can be seamlessly deployed to their wonderful static hosting environment. In addition, if you name your config file either `superstatic.json` or `divshot.json`, it will also be auto-loaded.
 
 For the most up-to-date reference of options for each middleware be sure to check out their [individual project repos](#middleware-stack).
 
@@ -142,20 +150,20 @@ $ charge # starts a server in `pwd`
 $ charge /path/to/project # starts a server at the provided path
 ```
 
-Since charge has the ability to take a lot of options, it might be best to utilize the [configuration file option](#options) when running from the command line.
+Since charge has the ability to take a lot of options, it might be best to utilize the [configuration file option](#options) when running from the command line. It is not possible to configure each option through command line flags, so if you do want to load extra config, this is the only way to do it. Note that if you have an auto-loaded config file (`charge.json`, `superstatic.json`, or `divshot.json`), you do not need to pass a config file option, it will be auto-loaded as expected.
 
 Charge, of course, also plays nicely with [Foreman](https://github.com/ddollar/foreman) (and it's equivalents). For example, your `Procfile` might look something like this:
 
 ```
 # Procfile
-web:   charge public -c server.json
+web:   charge public -c config.json
 redis: redis-server
 ```
 
 ##### CLI Options
 
 ```
---config, -c: path to a configuration file
+--config, -c: path to a custom configuration file
 --port, -p: port to start the server on, default 1111
 ```
 

@@ -36,7 +36,7 @@ charge = (root, opts) ->
   app.use(archivist(opts.cache_control))
   app.use(journalist(opts.write))
   app.use(alchemist(root, { url: opts.url, gzip: opts.gzip }))
-  app.use(apologist(opts.error_page))
+  app.use(apologist(root, opts.error_page))
 
   return app
 

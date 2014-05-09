@@ -71,11 +71,13 @@ describe 'options', ->
       res.should.have.status(200)
       done()
 
-  it.skip 'should use a custom error page if error_page is passed', (done) ->
+  it 'should use a custom error page if error_page is passed', (done) ->
     app = charge(opts_path, 'error_page.json')
 
     chai.request(app).get('/foo').res (res) ->
-      res.text.should.equal("<p>flagrant error!</p>")
+      res.should.have.status(404)
+      res.should.be.html
+      res.text.should.equal("<p>flagrant error!</p>\n")
       done()
 
   it.skip 'should inject content if write is passed', (done) ->

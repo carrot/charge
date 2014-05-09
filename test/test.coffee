@@ -47,6 +47,7 @@ describe 'options', ->
 
     chai.request(app).get('/index.html').res (res) ->
       res.should.have.status(404)
+      res.should.be.html
       done()
 
   it 'should use basic auth if auth is passed', (done) ->

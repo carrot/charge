@@ -16,24 +16,24 @@ describe 'class', ->
 describe 'options', ->
 
   it 'should take a string and load from a json file', ->
-    charge(basic_path, 'conf.json').stack.should.have.lengthOf(7)
+    charge(basic_path, 'conf.json').stack.should.have.lengthOf(3)
 
   it 'should take an object', ->
-    charge(basic_path, { clean_urls: true }).stack.should.have.lengthOf(7)
+    charge(basic_path, { clean_urls: true }).stack.should.have.lengthOf(3)
 
   it 'should load from a default config if no options provided', ->
-    charge(path.join(base_path, 'charge-json')).stack.should.have.lengthOf(7)
-    charge(path.join(base_path, 'superstatic-json')).stack.should.have.lengthOf(7)
-    charge(path.join(base_path, 'divshot-json')).stack.should.have.lengthOf(7)
+    charge(path.join(base_path, 'charge-json')).stack.should.have.lengthOf(3)
+    charge(path.join(base_path, 'superstatic-json')).stack.should.have.lengthOf(3)
+    charge(path.join(base_path, 'divshot-json')).stack.should.have.lengthOf(3)
 
   it 'should have no options if no default configs present', ->
-    charge(basic_path).stack.should.have.lengthOf(6)
+    charge(basic_path).stack.should.have.lengthOf(2)
 
   it 'should throw if invalid options passed', ->
     (-> charge(basic_path, false)).should.throw('invalid options')
 
   it 'should override root if root option is passed', ->
-    charge(basic_path, { root: path.join(base_path, 'alt') }).stack.should.have.lengthOf(6)
+    charge(basic_path, { root: path.join(base_path, 'alt') }).stack.should.have.lengthOf(2)
 
   it 'should use clean urls if clean_urls is passed', (done) ->
     app = charge(opts_path, 'clean_urls.json')
@@ -98,7 +98,7 @@ describe 'instance', ->
     (=> http.createServer(@app)).should.not.throw()
 
   it 'should have all middleware attached', ->
-    @app.stack.should.have.lengthOf(6)
+    @app.stack.should.have.lengthOf(2)
 
   it 'should serve static files', (done) ->
     chai.request(@app).get('/').res (res) ->

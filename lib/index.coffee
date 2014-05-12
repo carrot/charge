@@ -1,15 +1,9 @@
-fs          = require 'fs'
-path        = require 'path'
-defaults    = require 'lodash.defaults'
-hygienist   = require 'hygienist-middleware'
-escapist    = require 'escapist-middleware'
-archivist   = require 'archivist-middleware'
-alchemist   = require 'alchemist-middleware'
-apologist   = require 'apology-middleware'
-publicist   = require 'publicist-middleware'
-pathologist = require 'pathologist-middleware'
-journalist  = require 'infestor'
-connect     = require 'connect'
+fs        = require 'fs'
+path      = require 'path'
+http      = require 'http'
+extend    = require 'lodash.assign'
+connect   = require 'connect'
+m         = require './middleware'
 
 ###*
  * The main function, given a root and options, returns a decorated connect
@@ -29,17 +23,19 @@ charge = (root, opts) ->
 
   app = connect()
 
-  if opts.clean_urls then app.use(hygienist(root))
-  app.use(pathologist(opts.routes))
-  app.use(escapist(opts.exclude))
-  app.use(publicist(opts.auth))
-  app.use(archivist(opts.cache_control))
-  if opts.write then app.use(journalist(opts.write))
-  app.use(alchemist(root, { url: opts.url, gzip: opts.gzip }))
-  app.use(apologist(root, opts.error_page))
+  if opts.clean_urls    then app.use(m.hygienist(root))
+  if opts.routes        then app.use(m.pathologist(opts.routes))
+  if opts.exclude       then app.use(m.escapist(opts.exclude))
+  if opts.auth          then app.use(m.publicist(opts.auth))
+  if opts.cache_control then app.use(m.archivist(opts.cache_control))
+  if opts.write         then app.use(m.journalist(opts.write))
+
+  app.use(m.alchemist(root, { url: opts.url, gzip: opts.gzip }))
+  app.use(m.apologist(root, opts.error_page))
 
   return app
 
+###*
 ###*
  * The options param can accept a number of different types of input.
  *
@@ -72,12 +68,15 @@ parse_options = (root, opts) ->
     else throw new Error('invalid options')
 
 module.exports = charge
+###*
+ * @exports hygienist
+ * @exports escapist
+ * @exports archivist
+ * @exports alchemist
+ * @exports apologist
+ * @exports publicist
+ * @exports pathologist
+ * @exports journalist
+###
 
-module.exports.hygienist   = hygienist
-module.exports.escapist    = escapist
-module.exports.archivist   = archivist
-module.exports.journalist  = journalist
-module.exports.alchemist   = alchemist
-module.exports.apologist   = apologist
-module.exports.publicist   = publicist
-module.exports.pathologist = pathologist
+extend(module.exports, m)

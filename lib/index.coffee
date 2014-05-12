@@ -35,6 +35,7 @@ module.exports = charge = (root, opts) ->
 
   extend(app, { start: start.bind(charge, opts.websockets) })
   extend(app, { stop: stop.bind(charge) })
+  extend(app, { send: send.bind(charge, opts.websockets) })
 
   return app
 
@@ -76,7 +77,8 @@ stop = (cb) -> @server.close(cb)
  * @param  {Object} opts - additional options passed to faye-websockets
 ###
 
-send = (msg, opts) ->
+send = (ws_enabled, msg, opts) ->
+  if not ws_enabled then throw new Error('websockets disabled')
   if typeof msg is 'object' then msg = JSON.stringify(msg)
   sock.send(msg, opts) for sock in @sockets
 

@@ -117,3 +117,10 @@ describe 'instance', ->
 
   it 'keeps track of sockets when the server is started'
   it 'does not keep track of sockets if opts.websockets is false'
+
+describe 'websockets', ->
+
+  it 'should send a message via websockets'
+  it 'should stringify json and sends through websockets'
+  it 'should throw when send is called and websockets are disabled'
+  it 'should send to multiple websockets if they are open'

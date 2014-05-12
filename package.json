@@ -38,6 +38,7 @@
     "infestor": "0.2.0",
     "connect": "3.x",
     "pathologist-middleware": "0.0.1",
-    "lodash.defaults": "^2.4.1"
+    "lodash.assign": "^2.4.1",
+    "faye-websocket": "^0.7.2"
   }
 }

@@ -105,3 +105,15 @@ describe 'instance', ->
       res.should.have.status(200)
       res.text.should.equal('<p>hello world!</p>\n')
       done()
+
+  it 'should expose a start and stop method', (done) ->
+    @app.start.should.be.a 'function'
+    @app.start => @app.stop => @app.start => @app.stop(done)
+
+  it 'should accept a custom port to the start method', (done) ->
+    server = @app.start 1234, =>
+      server._connectionKey.should.match(/1234$/)
+      @app.stop(done)
+
+  it 'keeps track of sockets when the server is started'
+  it 'does not keep track of sockets if opts.websockets is false'

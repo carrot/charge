@@ -3,6 +3,7 @@ path      = require 'path'
 http      = require 'http'
 extend    = require 'lodash.assign'
 connect   = require 'connect'
+WebSocket = require 'faye-websocket'
 m         = require './middleware'
 
 ###*
@@ -14,12 +15,11 @@ m         = require './middleware'
  * @return {Function} an instance of connect
 ###
 
-charge = (root, opts) ->
+module.exports = charge = (root, opts) ->
   root = path.resolve(root)
-  opts = defaults parse_options(root, opts),
-    clean_urls: false
-
+  opts = parse_options(root, opts)
   if opts.root then root = path.resolve(opts.root)
+  if not opts.websockets then opts.websockets = true
 
   app = connect()
 
@@ -33,9 +33,53 @@ charge = (root, opts) ->
   app.use(m.alchemist(root, { url: opts.url, gzip: opts.gzip }))
   app.use(m.apologist(root, opts.error_page))
 
+  extend(app, { start: start.bind(charge, opts.websockets) })
+  extend(app, { stop: stop.bind(charge) })
+
   return app
 
 ###*
+ * Starts a server using the charge instance. Accepts an optional port
+ * and a callback, port defaults to 1111. Also initializes websockets and
+ * keeps track of open sockets while the server is running.
+ *
+ * @param  {Boolean} ws_enabled - private bound variable, ignore
+ * @param  {Integer} port - port to start the server on, defaults to 1111
+ * @param  {Function} cb - callback, called when server has started
+ * @return {Object} node http server instance
+###
+
+start = (ws_enabled, port = 1111, cb) ->
+  @sockets = []
+
+  if typeof port is 'function'
+    cb = port
+    port = 1111
+
+  @server = http.createServer(@).listen(port, cb)
+  if ws_enabled then initialize_websockets.call(@)
+
+  return @server
+
+###*
+ * Stops a running server.
+ *
+ * @param  {Function} cb [description]
+###
+
+stop = (cb) -> @server.close(cb)
+
+###*
+ * Send a message to the client via websockets.
+ *
+ * @param  {*} msg - the message you want to send. preferably string or object
+ * @param  {Object} opts - additional options passed to faye-websockets
+###
+
+send = (msg, opts) ->
+  if typeof msg is 'object' then msg = JSON.stringify(msg)
+  sock.send(msg, opts) for sock in @sockets
+
 ###*
  * The options param can accept a number of different types of input.
  *
@@ -67,7 +111,18 @@ parse_options = (root, opts) ->
         {}
     else throw new Error('invalid options')
 
-module.exports = charge
+###*
+ * Initialize websockets listener and keep track of connections.
+ * @private
+###
+
+initialize_websockets = ->
+  @server.on('upgrade', console.log)
+  @server.on 'upgrade', (req, socket, body) ->
+    if WebSocket.isWebSocket(req)
+      ws = new WebSocket(req, socket, body)
+      ws.on('open', => @sockets.push(ws))
+
 ###*
  * @exports hygienist
  * @exports escapist

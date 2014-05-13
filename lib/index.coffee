@@ -1,10 +1,11 @@
-fs        = require 'fs'
-path      = require 'path'
-http      = require 'http'
-extend    = require 'lodash.assign'
-connect   = require 'connect'
-WebSocket = require 'faye-websocket'
-m         = require './middleware'
+fs           = require 'fs'
+path         = require 'path'
+http         = require 'http'
+EventEmitter = require('events').EventEmitter
+extend       = require 'lodash.assign'
+connect      = require 'connect'
+WebSocket    = require 'faye-websocket'
+m            = require './middleware'
 
 ###*
  * The main function, given a root and options, returns a decorated connect
@@ -19,7 +20,7 @@ module.exports = charge = (root, opts) ->
   root = path.resolve(root)
   opts = parse_options(root, opts)
   if opts.root then root = path.resolve(opts.root)
-  if not opts.websockets then opts.websockets = true
+  if typeof opts.websockets == 'undefined' then opts.websockets = true
 
   app = connect()
 
@@ -33,9 +34,10 @@ module.exports = charge = (root, opts) ->
   app.use(m.alchemist(root, { url: opts.url, gzip: opts.gzip }))
   app.use(m.apologist(root, opts.error_page))
 
-  extend(app, { start: start.bind(charge, opts.websockets) })
-  extend(app, { stop: stop.bind(charge) })
-  extend(app, { send: send.bind(charge, opts.websockets) })
+  extend(app, new EventEmitter)
+  extend(app, { start: start.bind(app, opts.websockets) })
+  extend(app, { stop: stop.bind(app) })
+  extend(app, { send: send.bind(app, opts.websockets) })
 
   return app
 
@@ -68,7 +70,9 @@ start = (ws_enabled, port = 1111, cb) ->
  * @param  {Function} cb [description]
 ###
 
-stop = (cb) -> @server.close(cb)
+stop = (cb) ->
+  @server.close(cb)
+  delete @server
 
 ###*
  * Send a message to the client via websockets.
@@ -79,6 +83,7 @@ stop = (cb) -> @server.close(cb)
 
 send = (ws_enabled, msg, opts) ->
   if not ws_enabled then throw new Error('websockets disabled')
+  if not @server then throw new Error('server not running')
   if typeof msg is 'object' then msg = JSON.stringify(msg)
   sock.send(msg, opts) for sock in @sockets
 
@@ -119,11 +124,12 @@ parse_options = (root, opts) ->
 ###
 
 initialize_websockets = ->
-  @server.on('upgrade', console.log)
-  @server.on 'upgrade', (req, socket, body) ->
+  @server.on 'upgrade', (req, socket, body) =>
     if WebSocket.isWebSocket(req)
       ws = new WebSocket(req, socket, body)
-      ws.on('open', => @sockets.push(ws))
+      ws.on 'open', =>
+        @sockets.push(ws)
+        @emit('connection')
 
 ###*
  * @exports hygienist

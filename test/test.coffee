@@ -1,6 +1,8 @@
-http = require 'http'
+http       = require 'http'
+net        = require 'net'
+websocket  = require 'websocket-driver'
 basic_path = path.join(base_path, 'basic')
-opts_path = path.join(base_path, 'options')
+opts_path  = path.join(base_path, 'options')
 
 describe 'class', ->
 
@@ -115,12 +117,30 @@ describe 'instance', ->
       server._connectionKey.should.match(/1234$/)
       @app.stop(done)
 
-  it 'keeps track of sockets when the server is started'
-  it 'does not keep track of sockets if opts.websockets is false'
-
 describe 'websockets', ->
 
-  it 'should send a message via websockets'
-  it 'should stringify json and sends through websockets'
-  it 'should throw when send is called and websockets are disabled'
-  it 'should send to multiple websockets if they are open'
+  it 'should throw if server hasnt been started', ->
+    (-> charge(basic_path).send('wow')).should.throw('server not running')
+
+  it 'should throw when send is called and websockets are disabled', ->
+    app = charge(basic_path, { websockets: false })
+    (-> app.send('wow')).should.throw('websockets disabled')
+
+  it 'should connect and send a message via websockets', (done) ->
+    app = charge(basic_path)
+
+    app.start()
+    driver = websocket.client('ws://localhost:1111/ws')
+    tcp = net.createConnection(1111, 'localhost')
+
+    tcp.pipe(driver.io).pipe(tcp)
+
+    driver.messages.on 'data', (msg) ->
+      msg.should.equal("{\"test\":\"wow\"}")
+      done()
+
+    tcp.on 'connect', =>
+      driver.start()
+      app.on 'connection', ->
+        app.sockets.should.have.lengthOf(1)
+        app.send({ test: 'wow' })

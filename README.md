@@ -128,9 +128,26 @@ Sends a string or object of your choice via websockets. If you pass an object, i
 
 You can use any of these methods on the `server` object returned by the promise from calling `app.start()`.
 
+#### Events
+
+The websocket interface provides a couple basic events that can be used to interact with the client, described below. Each of these can be called as such:
+
+```
+var app = charge()
+app.on('event-name', function(param){
+  // do something with the results
+});
+```
+
+##### connection
+Fired when a socket connection is established between a client and the server.
+
+##### message(data)
+Fired when a message is sent from the client to the server. Takes one param which is the full message object sent by websockets. The message sent from the client can be accesed with the `data` property.
+
 ### Using Websockets
 
-Getting websockets set up can be a little confusing if you've never done it before. Luckily, charge abstracts away as much as is possible -- it's simple to send any message you need to any number of connected sockets using the `send` method seen above. All you need to do is configure your client-side javascript to recieve the messages. You can see an example of this [here](#).
+Getting websockets set up can be a little confusing if you've never done it before. Luckily, charge abstracts away as much as is possible -- it's simple to send any message you need to any number of connected sockets using the `send` method seen above. All you need to do is configure your client-side javascript to recieve the messages. You can see an example of this [here](examples/websockets).
 
 Charge can create a server for you that is enhanced with utilities for interacting with the page via websockets. This is a great way to make a static page more dynamic by receiving information from the server and handling it with javascript. For example:
 

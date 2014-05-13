@@ -1,0 +1,42 @@
+body {
+  -webkit-font-smoothing: antaliased;
+  font-family: Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+  padding: 50px;
+  color: #333;
+  width: 750px;
+  margin: 0 auto;
+}
+
+p {
+  color: #555;
+  line-height: 1.4em;
+  font-size: .9em;
+}
+
+#log {
+  padding: 20px;
+  background: #EEE;
+  margin-top: 1em;
+  font-size: .9em;
+  border-radius: 4px;
+  border: 1px solid #DDD;
+}
+
+button {
+  border: none;
+  background: rgb(77, 206, 134);
+  padding: 14px;
+  color: white;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: rgb(48, 182, 107);
+}
+
+button:focus {
+  outline: none;
+}

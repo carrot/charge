@@ -21,6 +21,7 @@ module.exports = charge = (root, opts) ->
   opts = parse_options(root, opts)
   if opts.root then root = path.resolve(opts.root)
   if typeof opts.websockets == 'undefined' then opts.websockets = true
+  if opts.write then opts.gzip = false
 
   app = connect()
 

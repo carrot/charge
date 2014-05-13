@@ -83,10 +83,12 @@ describe 'options', ->
       res.text.should.equal("<p>flagrant error!</p>\n")
       done()
 
-  it.skip 'should inject content if write is passed', (done) ->
+  it 'should inject content if write is passed', (done) ->
     app = charge(opts_path, 'write.json')
 
-    chai.request(app).get('/').res (res) ->
+    chai.request(app).get('/infestor.html').res (res) ->
+      res.should.have.status(200)
+      res.should.have.be.html
       res.text.should.match /hello there!/
       done()
 

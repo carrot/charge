@@ -113,6 +113,8 @@ All the options the charge takes are interoperable with [divshot.io's configurat
 
 For the most up-to-date reference of options for each middleware be sure to check out their [individual project repos](#middleware-stack).
 
+> note: if you attempt to use `journalist` to write content into your response, we will automatically turn off gzip.
+
 #### Methods
 
 ##### start(opts)

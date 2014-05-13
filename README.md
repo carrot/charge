@@ -33,12 +33,13 @@ Charge was built from the ground up to be as flexible as possible. At its core, 
 var charge = require('charge');
 
 charge.hygienist // (clean urls) https://github.com/carrot/hygienist-middleware
-charge.apologist // (custom error pages) https://github.com/carrot/apologist-middleware
-charge.escapist // (ignore files) https://github.com/carrot/escapist-middleware
-charge.archivist // (cache control) https://github.com/carrot/archivist-middleware
 charge.pathologist // (custom routes) https://github.com/carrot/pathologist-middleware
+charge.escapist // (ignore files) https://github.com/carrot/escapist-middleware
 charge.publicist // (basic auth) https://github.com/visionmedia/node-basic-auth
+charge.archivist // (cache control) https://github.com/carrot/archivist-middleware
 charge.journalist // (inject content) https://github.com/samccone/infestor
+charge.alchemist // (static server) https://github.com/carrot/alchemist
+charge.apologist // (custom error pages) https://github.com/carrot/apologist-middleware
 ```
 
 Each of these expose a function that accepts the `root` of the site you are serving as the first argument, and an options object as the second, and returns a middleware function (compatible with [connect](http://www.senchalabs.org/connect/), [express](http://expressjs.com/4x/api.html#middleware) and similar middleware stacks). See the individual repos for details on the options.
@@ -62,23 +63,26 @@ http.createServer(app).listen(1111);
 - `charge.hygienist` (clean urls)
 https://github.com/carrot/hygienist-middleware
 
-- `charge.apologist` (custom error pages)
-https://github.com/carrot/apology-middleware
+- `charge.pathologist` (custom routes)
+https://github.com/carrot/pathologist-middleware
 
 - `charge.escapist` (ignore files)
 https://github.com/carrot/escapist-middleware
 
-- `charge.archivist` (cache control)
-https://github.com/carrot/archivist-middleware
-
-- `charge.pathologist` (custom routes)
-https://github.com/carrot/pathologist-middleware
-
 - `charge.publicist` (basic auth)
 https://github.com/visionmedia/node-basic-auth
 
+- `charge.archivist` (cache control)
+https://github.com/carrot/archivist-middleware
+
 - `charge.journalist` (inject content)
 https://github.com/samccone/infestor
+
+- `charge.alchemist` (static file server)
+https://github.com/carrot/alchemist-middleware
+
+- `charge.apologist` (custom error pages)
+https://github.com/carrot/apology-middleware
 
 
 #### Options

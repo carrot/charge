@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Charge - Configuration File Example</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <style>
+      body { font-family: 'Open Sans', sans-serif; padding: 40px 0; line-height: 28px; }
+      #content { max-width: 920px; margin: 0 auto; padding: 0 20px }
+      a:link, a:visited { color: #0074D9 }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+
+      <h2>Charge - Configuration File Example</h2>
+      <p>This page is being served by <a href="http://github.com/carrot/charge">Charge</a>. Review `examples/config_file/charge.json` to see it's configuration options</p>
+
+      <p>- It has clean urls like <a href="/foo">/foo</a></p>
+
+      <p>- It has a <a href="/non-existant.html">custom error page</a></p>
+
+      <p>- It prevents you from seeing a <a href="/secret.txt">secret file</a></p>
+
+      <p>- It has basic auth for all <a href="/protected">/protected</a> routes with credentials `user:pass`</p>
+
+      <p>- It routes all <a href="/routed/foo.html">/routed/**</a> urls to <a href="/routed.html">/routed.html</a></p>
+
+    </div>
+  </body>
+</html>

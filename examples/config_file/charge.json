@@ -1,0 +1,11 @@
+{
+  "clean_urls": true,
+  "error_page": "custom.html",
+  "exclude": "secret.txt",
+  "auth": {
+    "protected/**": "user:pass"
+  },
+  "routes": {
+    "routed/**": "routed.html"
+  }
+}

@@ -157,10 +157,8 @@ var charge = require('charge'),
 
 var app = charge('./public', { option: 'value' });
 
-app.start({ port: 1111 }).then(function(server){
-  // the `server` object is just a node http server, decorated with a few extra
-  // methods as demonstrated below
-  server.send('hello from the server!');
+app.start(function(){
+  app.send('hello from the server!');
 });
 ```
 

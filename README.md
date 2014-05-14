@@ -11,7 +11,7 @@ A collection of useful middleware and tools for serving static sites.
 
 If you are serving a static site through node, we all know you can use [connect](https://github.com/senchalabs/connect) or [express](https://github.com/visionmedia/express)'s static serving capabilities. In both cases, this is actually the [serve-static](https://github.com/expressjs/serve-static) module behind the scenes. And while this does a wonderful job of quickly serving up a directory, for those heavily using static sites in production, there are many other utilities still to be desired. For example, imagine if:
 
-- You didn't have to use '.html' at the end of each url
+- You didn't have to use `.html` at the end of each url
 - You could add in custom routes and redirects (very handy for SPA)
 - You could slot in a custom error page if there was a 404
 - You could easily add http basic auth for a site in staging mode
@@ -27,9 +27,9 @@ All of these things would be great, but are conveniences you usually expect from
 
 ### Usage
 
-Charge was built from the ground up to be as flexible as possible, and can be used at three different levels, all of which will be reviewed thoroughly below. The base module you require can be used to access any part of the middleware stack or create an "app" function, which is a decorated connect instance. The decorated connect instance can be passed manually into `http.createServer`, or you can use the `createServer` method on the instance to create a decorated server instance. The decorated server instance can then be used to interact with the client through websockets. So in total, there are three levels you get to (base module, decorated connect instance, decorated server instance), and each level you can use both as you wish, or through the methods provided through the decoration, depending on your preferences. Here's a diagram of what we're talking about, in case this was confusing, which it probably was:
+Charge is represented by three different interfaces, each of which can be utilized independently or together. The charge module itself is a function that you can either access pieces of middleware from, or execute to generate a decorated connect instance. The decorated connect instance can be passed in to `http.createServer` as you usually would do with connect, or you can call a `start` function on it, which will create and start a server for you and decorate it with a few additional methods intended for working with websockets. This might sound confusing at first, but there is a diagram below as well as detailed explanations of each level that will make this more clear :grinning:.
 
-![charge structure]()
+<p align='center'><img src='https://i.cloudup.com/NsjkIJxDbe.svg' alt='charge structure' /></p>
 
 Now we'll review each level with a little more detail!
 
@@ -50,29 +50,14 @@ charge.apologist
 
 Each of these are middleware functions, compatible with [connect](http://www.senchalabs.org/connect/), [express](http://expressjs.com/4x/api.html#middleware) and similar middleware stacks. More details on each piece of middleware below:
 
-- `charge.hygienist` (clean urls)
-https://github.com/carrot/hygienist-middleware
-
-- `charge.pathologist` (custom routes)
-https://github.com/carrot/pathologist-middleware
-
-- `charge.escapist` (ignore files)
-https://github.com/carrot/escapist-middleware
-
-- `charge.publicist` (basic auth)
-https://github.com/carrot/publicist-middleware
-
-- `charge.archivist` (cache control)
-https://github.com/carrot/archivist-middleware
-
-- `charge.journalist` (inject content)
-https://github.com/samccone/infestor
-
-- `charge.alchemist` (static file server)
-https://github.com/carrot/alchemist-middleware
-
-- `charge.apologist` (custom error pages)
-https://github.com/carrot/apology-middleware
+- [Hygienist](https://github.com/carrot/hygienist-middleware) (clean urls)
+- [Pathologist](https://github.com/carrot/pathologist-middleware) (custom routes)
+- [Escapist](https://github.com/carrot/escapist-middleware) (ignore files)
+- [Publicist](https://github.com/carrot/publicist-middleware) (basic auth)
+- [Archivist](https://github.com/carrot/archivist-middleware) (cache control)
+- [Journalist](https://github.com/samccone/infestor) (inject content)
+- [Alchemist](https://github.com/carrot/alchemist-middleware) (static file server)
+- [Apologist](https://github.com/carrot/apology-middleware) (custom error pages)
 
 You can also call `charge` function, which returns a `connect` instance with all the middleware described previously already added. The function takes a `root` path and an options object which represents options for each of the middleware merged together. As is the case with any connect object, you can pass this to `http.createServer` to create a server:
 
@@ -116,13 +101,13 @@ All the options the charge takes are interoperable with [divshot.io's configurat
 
 For the most up-to-date reference of options for each middleware be sure to check out their [individual project repos](#middleware-stack).
 
-> note: if you attempt to use `journalist` to write content into your response, we will automatically turn off gzip.
+> **Note:** if you attempt to use `journalist` to write content into your response, we will automatically turn off gzip.
 
-You can also start a new server using the convenience method `app.start`, which will return a decorated node http server instance.
+You can also start a new server using `app.start`, which will create and start a server for you and return a decorated node http server instance.
 
 ```js
-var app = charge('path/to/public')
-var server = app.start() // you can pass a port as an argument, or it defaults to 1111
+var app = charge('path/to/public');
+var server = app.start(); // you can pass a port as an argument, or it defaults to 1111
 ```
 
 This decorated server will also initialize websockets and exposes a couple additional events and methods, documented below:

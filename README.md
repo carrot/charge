@@ -60,7 +60,7 @@ https://github.com/carrot/pathologist-middleware
 https://github.com/carrot/escapist-middleware
 
 - `charge.publicist` (basic auth)
-https://github.com/visionmedia/node-basic-auth
+https://github.com/carrot/publicist-middleware
 
 - `charge.archivist` (cache control)
 https://github.com/carrot/archivist-middleware

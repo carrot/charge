@@ -131,6 +131,7 @@ initialize_websockets = ->
       ws.on 'open', =>
         @sockets.push(ws)
         @emit('connection')
+      ws.on('message', @emit.bind(@, 'message'))
 
 ###*
  * @exports hygienist

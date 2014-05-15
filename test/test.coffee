@@ -66,6 +66,13 @@ describe 'options', ->
       res.headers['cache-control'].should.equal('wow')
       done()
 
+  it 'should use custom routes if routes is passed', (done) ->
+    app = charge(opts_path, 'routes.json')
+
+    chai.request(app).get('/foobar.html').res (res) ->
+      res.should.have.status(200)
+      done()
+
   it 'should modify alchemist settings if url and/or gzip are passed', (done) ->
     app = charge(opts_path, 'alchemist.json')
 
@@ -110,39 +117,53 @@ describe 'instance', ->
       res.text.should.equal('<p>hello world!</p>\n')
       done()
 
-  it 'should expose a start and stop method', (done) ->
+  it 'should expose a start method', (done) ->
     @app.start.should.be.a 'function'
-    @app.start => @app.stop => @app.start => @app.stop(done)
+    server = @app.start =>
+      server.close =>
+        server2 = @app.start =>
+          server2.close(done)
 
   it 'should accept a custom port to the start method', (done) ->
     server = @app.start 1234, =>
       server._connectionKey.should.match(/1234$/)
-      @app.stop(done)
+      server.close(done)
 
 describe 'websockets', ->
 
-  it 'should throw if server hasnt been started', ->
-    (-> charge(basic_path).send('wow')).should.throw('server not running')
-
-  it 'should throw when send is called and websockets are disabled', ->
+  it 'should throw when send is called and websockets are disabled', (done) ->
     app = charge(basic_path, { websockets: false })
-    (-> app.send('wow')).should.throw('websockets disabled')
+    server = app.start ->
+      (-> server.send('wow')).should.throw('websockets disabled')
+      server.close(done)
 
   it 'should connect and send a message via websockets', (done) ->
-    app = charge(basic_path)
-
-    app.start()
+    # set up the client mock
     driver = websocket.client('ws://localhost:1111/ws')
     tcp = net.createConnection(1111, 'localhost')
-
     tcp.pipe(driver.io).pipe(tcp)
 
+    # 1. start the server
+    server = charge(basic_path).start()
+
+    # 4. when the client gets the message, disconnect
     driver.messages.on 'data', (msg) ->
       msg.should.equal("{\"test\":\"wow\"}")
-      done()
+      driver.close()
 
     tcp.on 'connect', =>
+      # 2. connect the client mock to the server
       driver.start()
-      app.on 'connection', ->
-        app.sockets.should.have.lengthOf(1)
-        app.send({ test: 'wow' })
+
+      # 3. when the server detects the connected client, send it a message
+      server.on 'client_open', ->
+        server.sockets.should.have.lengthOf(1)
+        server.send({ test: 'wow' })
+
+      # 5. when the server detects a disconnected client, close the server
+      server.on 'client_close', ->
+        server.close ->
+          server.sockets.should.have.lengthOf(0)
+          done()
+
+  it 'should send messages to multiple connected clients'

@@ -40,6 +40,8 @@
     "connect": "3.x",
     "pathologist-middleware": "0.0.1",
     "lodash.assign": "^2.4.1",
-    "faye-websocket": "^0.7.2"
+    "faye-websocket": "^0.7.2",
+    "node-uuid": "^1.4.1",
+    "lodash.remove": "^2.4.1"
   }
 }

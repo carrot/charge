@@ -1,11 +1,12 @@
-fs           = require 'fs'
-path         = require 'path'
-http         = require 'http'
-EventEmitter = require('events').EventEmitter
-extend       = require 'lodash.assign'
-connect      = require 'connect'
-WebSocket    = require 'faye-websocket'
-m            = require './middleware'
+fs        = require 'fs'
+path      = require 'path'
+http      = require 'http'
+extend    = require 'lodash.assign'
+remove    = require 'lodash.remove'
+connect   = require 'connect'
+WebSocket = require 'faye-websocket'
+uuid      = require 'node-uuid'
+m         = require './middleware'
 
 ###*
  * The main function, given a root and options, returns a decorated connect
@@ -35,10 +36,7 @@ module.exports = charge = (root, opts) ->
   app.use(m.alchemist(root, { url: opts.url, gzip: opts.gzip }))
   app.use(m.apologist(root, opts.error_page))
 
-  extend(app, new EventEmitter)
   extend(app, { start: start.bind(app, opts.websockets) })
-  extend(app, { stop: stop.bind(app) })
-  extend(app, { send: send.bind(app, opts.websockets) })
 
   return app
 
@@ -54,26 +52,15 @@ module.exports = charge = (root, opts) ->
 ###
 
 start = (ws_enabled, port = 1111, cb) ->
-  @sockets = []
-
-  if typeof port is 'function'
-    cb = port
-    port = 1111
+  if typeof port is 'function' then cb = port; port = 1111
 
   @server = http.createServer(@).listen(port, cb)
-  if ws_enabled then initialize_websockets.call(@)
+
+  extend(@server, { send: send.bind(@server, ws_enabled) })
+
+  if ws_enabled then initialize_websockets.call(@server)
 
   return @server
-
-###*
- * Stops a running server.
- *
- * @param  {Function} cb [description]
-###
-
-stop = (cb) ->
-  @server.close(cb)
-  delete @server
 
 ###*
  * Send a message to the client via websockets.
@@ -84,7 +71,6 @@ stop = (cb) ->
 
 send = (ws_enabled, msg, opts) ->
   if not ws_enabled then throw new Error('websockets disabled')
-  if not @server then throw new Error('server not running')
   if typeof msg is 'object' then msg = JSON.stringify(msg)
   sock.send(msg, opts) for sock in @sockets
 
@@ -120,18 +106,26 @@ parse_options = (root, opts) ->
     else throw new Error('invalid options')
 
 ###*
- * Initialize websockets listener and keep track of connections.
+ * Initialize websockets listener and keep track of connections. Emits events
+ * on initial connection and on message from the client.
+ *
  * @private
 ###
 
 initialize_websockets = ->
-  @server.on 'upgrade', (req, socket, body) =>
-    if WebSocket.isWebSocket(req)
-      ws = new WebSocket(req, socket, body)
-      ws.on 'open', =>
-        @sockets.push(ws)
-        @emit('connection')
-      ws.on('message', @emit.bind(@, 'message'))
+  @sockets = []
+
+  @on 'upgrade', (req, socket, body) =>
+    if not WebSocket.isWebSocket(req) then return
+
+    ws = new WebSocket(req, socket, body)
+    ws.id = uuid.v1()
+
+    ws.on('open', (e) => @sockets.push(ws); @emit('client_open', e))
+    ws.on('message', @emit.bind(@, 'message'))
+    ws.on 'close', (e) =>
+      remove(@sockets, (s) -> s.id == ws.id)
+      @emit('client_close', e)
 
 ###*
  * @exports hygienist

@@ -29,7 +29,7 @@ All of these things would be great, but are conveniences you usually expect from
 
 Charge is represented by three different interfaces, each of which can be utilized independently or together. The charge module itself is a function that you can either access pieces of middleware from, or execute to generate a decorated connect instance. The decorated connect instance can be passed in to `http.createServer` as you usually would do with connect, or you can call a `start` function on it, which will create and start a server for you and decorate it with a few additional methods intended for working with websockets. This might sound confusing at first, but there is a diagram below as well as detailed explanations of each level that will make this more clear :grinning:.
 
-<p align='center'><img src='https://i.cloudup.com/NsjkIJxDbe.svg' alt='charge structure' /></p>
+<p align='center'><img src='https://i.cloudup.com/RaCXxJFoPn.svg' alt='charge structure' /></p>
 
 Now we'll review each level with a little more detail!
 

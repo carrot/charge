@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+require('coffee-script/register');
+require('colors');
+var cli = require('../lib/cli'),
+    notifier = require('update-notifier')({ packagePath: '../package.json' });
+
+// new version notification
+notifier.update && notifier.notify();
+
+// log out data
+cli.on('info', function(m){ console.log(("▸ " + m).grey) });
+cli.on('success', function(m){ console.log(("✓ " + m).green) });
+cli.on('err', function(err){ console.error("✘ ".red + err); process.exit(1); });
+cli.on('data', console.log.bind(console));
+
+cli.run(process.argv.slice(2));

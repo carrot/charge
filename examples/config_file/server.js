@@ -1,4 +1,4 @@
-require('coffee-script/register')
+require('coffee-script/register');
 
 var charge = require('../..'),
     http = require('http');
@@ -6,4 +6,7 @@ var charge = require('../..'),
 // create a new charge app
 // charge automatically uses the config options in (__dirname + 'charge.json')
 var app = charge(__dirname);
-http.createServer(app).listen(1111);
+
+app.start(function(){
+  console.log('server started on port 1111');
+});

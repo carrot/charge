@@ -4,7 +4,25 @@ antimatter   = require 'anti-matter'
 EventEmitter = require('events').EventEmitter
 charge       = require './'
 
+###*
+ * The cli module just exports an event emitter. If you are implementing the
+ * cli, you can listen for events here and log them as you wish.
+ *
+ * @type {EventEmitter}
+ * @fires data - normal/pre-formatted data to be logged
+ * @fires success - to be logged with great joyous triumph
+###
+
 module.exports = self = new EventEmitter
+
+###*
+ * Given command line arguments, runs the given command, emitting any output
+ * via the event emitter exposed above.
+ *
+ * @param  {Array|String} args - An array or string of args. If a string, it is
+ *                               split by spaces before being parsed.
+ * @return {Object} charge-decorated node server
+###
 
 module.exports.run = (args) ->
   if typeof args is 'string' then args = args.split(' ')

@@ -12,4 +12,5 @@ notifier.update && notifier.notify();
 cli.on('success', function(m){ console.log(("✓ " + m).green) });
 cli.on('data', console.log.bind(console));
 
+// run the command
 cli.run(process.argv.slice(2));

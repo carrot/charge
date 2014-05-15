@@ -1,10 +1,11 @@
 http       = require 'http'
 net        = require 'net'
 websocket  = require 'websocket-driver'
+cli        = require '../lib/cli'
 basic_path = path.join(base_path, 'basic')
 opts_path  = path.join(base_path, 'options')
 
-describe 'class', ->
+describe 'module', ->
 
   it 'should expose all middleware', ->
     charge.hygienist.should.be.a 'function'
@@ -167,3 +168,52 @@ describe 'websockets', ->
           done()
 
   it 'should send messages to multiple connected clients'
+
+describe 'cli', ->
+
+  it 'should run a server in the current directory', (done) ->
+    cwd = process.cwd()
+    process.chdir(path.join(base_path, 'basic'))
+
+    cli.once 'success', ->
+      chai.request('http://localhost:1111').get('/').res (res) ->
+        res.should.have.status(200)
+        res.text.should.equal("<p>hello world!</p>\n")
+        process.chdir(cwd)
+        server.close(done)
+
+    server = cli.run([])
+
+  it 'should run a server in a passed in directory', (done) ->
+    cli.once 'success', (msg) ->
+      msg.should.equal('server started on port 1111')
+      chai.request('http://localhost:1111').get('/').res (res) ->
+        res.should.have.status(200)
+        res.text.should.equal("<p>hello world!</p>\n")
+        server.close(done)
+
+    server = cli.run(path.join(base_path, 'basic'))
+
+  it 'should use a custom config file if --config is passed', (done) ->
+    cli.once 'success', ->
+      chai.request('http://localhost:1111').get('/index.html').res (res) ->
+        res.should.have.status(200)
+        res.redirects[0].should.match /index$/
+        server.close(done)
+
+    server = cli.run("#{path.join(base_path, 'basic')} -c conf.json")
+
+  it 'should use a custom port if --port is passed', (done) ->
+    cli.once 'success', ->
+      chai.request('http://localhost:1234').get('/').res (res) ->
+        res.should.have.status(200)
+        server.close(done)
+
+    server = cli.run("#{path.join(base_path, 'basic')} -p 1234")
+
+  it 'should print help if --help is passed', (done) ->
+    cli.once 'data', (msg) ->
+      msg.should.match /Charge Usage/
+      done()
+
+    server = cli.run("--help")

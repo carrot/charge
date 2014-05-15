@@ -16,7 +16,7 @@
 
   // add onclose handler for if the server ends the connection
   sock.onclose = handle_close;
-  function handle_close(msg){
+  function handle_close(){
     log.innerHTML += "<p>server disconnected</p>";
   }
 

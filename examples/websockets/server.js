@@ -1,4 +1,4 @@
-require('coffee-script/register')
+require('coffee-script/register');
 
 var charge = require('../..');
 
@@ -28,4 +28,4 @@ server.on('client_close', function(){
 });
 
 // ping the client every second
-setInterval(function(){ server.send('server: ping') }, 1000);
+setInterval(function(){ server.send('server: ping'); }, 1000);

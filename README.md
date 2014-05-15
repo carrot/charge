@@ -160,6 +160,12 @@ redis: redis-server
 --port, -p: port to start the server on, default 1111
 ```
 
+### Acknowledgements
+
+Charge was enormously inspired by [Divshot.io's](http://divshot.io/) excellent [Superstatic](http://github.com/divshot/superstatic) Project. They deserve to be commended for making that project, which is core to their business, open-source and being open to outside input.
+
+In keeping with that spirit, we've done our best to make Charge interop, wherever possible, with [Divshot.io](http://divshot.io) so you can easily use them as your preferred static host.
+
 ### License & Contributing
 
 - Details on the license [can be found here](LICENSE.md)

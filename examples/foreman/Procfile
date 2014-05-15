@@ -1,0 +1,4 @@
+web: charge -p 1112
+
+# you can also run parallel processes with 'foreman start', like redis
+# redis: redis-server

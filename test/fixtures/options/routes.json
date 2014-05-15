@@ -1,5 +1,6 @@
 {
   "routes": {
     "**": "/index.html"
-  }
+  },
+  "log": false
 }

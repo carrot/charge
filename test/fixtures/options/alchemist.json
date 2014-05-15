@@ -1,4 +1,5 @@
 {
   "url": "/test",
-  "gzip": false
+  "gzip": false,
+  "log": false
 }

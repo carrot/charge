@@ -44,6 +44,7 @@ charge.escapist
 charge.publicist
 charge.archivist
 charge.journalist
+charge.columnist
 charge.alchemist
 charge.apologist
 ```
@@ -56,6 +57,7 @@ Each of these are middleware functions, compatible with [connect](http://www.sen
 - [Publicist](https://github.com/carrot/publicist-middleware) (basic auth)
 - [Archivist](https://github.com/carrot/archivist-middleware) (cache control)
 - [Journalist](https://github.com/samccone/infestor) (inject content)
+- [Columnist](https://github.com/expressjs/morgan) (logging)
 - [Alchemist](https://github.com/carrot/alchemist-middleware) (static file server)
 - [Apologist](https://github.com/carrot/apology-middleware) (custom error pages)
 
@@ -87,7 +89,8 @@ Charge accepts options for each piece of middleware that it unifies (which is a 
   "routes": { "**": "index.html" },
   "write": { content: "hello!" },
   "url": "/static",
-  "gzip": true
+  "gzip": true,
+  "log": "tiny"
 }
 ```
 

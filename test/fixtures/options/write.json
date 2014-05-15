@@ -1,5 +1,6 @@
 {
   "write": {
     "content": "hello there!"
-  }
+  },
+  "log": false
 }

@@ -23,6 +23,7 @@ module.exports = charge = (root, opts) ->
   if opts.root then root = path.resolve(opts.root)
   if typeof opts.websockets == 'undefined' then opts.websockets = true
   if opts.write then opts.gzip = false
+  if typeof opts.log == 'undefined' then opts.log = 'dev'
 
   app = connect()
 
@@ -32,6 +33,7 @@ module.exports = charge = (root, opts) ->
   if opts.auth          then app.use(m.publicist(opts.auth))
   if opts.cache_control then app.use(m.archivist(opts.cache_control))
   if opts.write         then app.use(m.journalist(opts.write))
+  if opts.log           then app.use(m.columnist(opts.log))
 
   app.use(m.alchemist(root, { url: opts.url, gzip: opts.gzip }))
   app.use(m.apologist(root, opts.error_page))

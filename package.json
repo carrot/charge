@@ -49,6 +49,7 @@
     "minimist": "^0.1.0",
     "update-notifier": "^0.1.8",
     "colors": "^0.6.2",
-    "anti-matter": "0.0.1"
+    "anti-matter": "0.0.1",
+    "morgan": "1.0.x"
   }
 }

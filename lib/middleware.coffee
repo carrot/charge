@@ -5,5 +5,6 @@ module.exports =
   alchemist: require 'alchemist-middleware'
   apologist: require 'apology-middleware'
   publicist: require 'publicist-middleware'
+  columnist: require 'morgan'
   pathologist: require 'pathologist-middleware'
   journalist: require 'infestor'

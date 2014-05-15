@@ -9,6 +9,9 @@
     "url": "https://github.com/carrot/charge.git"
   },
   "main": "lib",
+  "bin": {
+    "charge": "bin/charge"
+  },
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
@@ -42,6 +45,10 @@
     "lodash.assign": "^2.4.1",
     "faye-websocket": "^0.7.2",
     "node-uuid": "^1.4.1",
-    "lodash.remove": "^2.4.1"
+    "lodash.remove": "^2.4.1",
+    "minimist": "^0.1.0",
+    "update-notifier": "^0.1.8",
+    "colors": "^0.6.2",
+    "anti-matter": "0.0.1"
   }
 }

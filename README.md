@@ -1,7 +1,7 @@
 Charge
 ------
 
-[![npm](http://img.shields.io/npm/v/charge.svg?style=flat)](https://badge.fury.io/js/charge) [![tests](http://img.shields.io/travis/carrot/charge/master.svg?style=flat)](https://travis-ci.org/carrot/charge) [![coverage](http://img.shields.io/coveralls/carrot/charge.svg?style=flat)](https://coveralls.io/r/carrot/charge) [![dependencies](http://img.shields.io/gemnasium/carrot/charge.svg?style=flat)](https://david-dm.org/carrot/charge)
+[![npm](http://img.shields.io/npm/v/charge.svg?style=flat)](https://badge.fury.io/js/charge) [![tests](http://img.shields.io/travis/carrot/charge/master.svg?style=flat)](https://travis-ci.org/carrot/charge) [![coverage](http://img.shields.io/coveralls/carrot/charge.svg?style=flat)](https://coveralls.io/r/carrot/charge) [![dependencies](http://img.shields.io/gemnasium/carrot/charge.svg?style=flat)](https://gemnasium.com/carrot/charge)
 
 A collection of useful middleware and tools for serving static sites.
 

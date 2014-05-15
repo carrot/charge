@@ -66,6 +66,13 @@ describe 'options', ->
       res.headers['cache-control'].should.equal('wow')
       done()
 
+  it 'should use custom routes if routes is passed', (done) ->
+    app = charge(opts_path, 'routes.json')
+
+    chai.request(app).get('/foobar.html').res (res) ->
+      res.should.have.status(200)
+      done()
+
   it 'should modify alchemist settings if url and/or gzip are passed', (done) ->
     app = charge(opts_path, 'alchemist.json')
 
@@ -114,8 +121,8 @@ describe 'instance', ->
     @app.start.should.be.a 'function'
     server = @app.start =>
       server.close =>
-        server = @app.start =>
-          server.close(done)
+        server2 = @app.start =>
+          server2.close(done)
 
   it 'should accept a custom port to the start method', (done) ->
     server = @app.start 1234, =>

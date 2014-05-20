@@ -33,7 +33,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "hygienist-middleware": "0.0.2",
+    "hygienist-middleware": "0.0.3",
     "escapist-middleware": "0.0.2",
     "archivist-middleware": "0.0.1",
     "alchemist-middleware": "0.0.2",

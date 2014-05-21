@@ -100,6 +100,16 @@ describe 'options', ->
       res.text.should.match /hello there!/
       done()
 
+  it 'should gzip content if gzip is passed', (done) ->
+    app = charge(opts_path, 'gzip.json')
+
+    chai.request(app).get('/').res (res) ->
+      res.headers['content-encoding'].should.equal('gzip')
+      res.should.have.status(200)
+      res.should.have.be.html
+      res.text.should.equal('<p>wow</p>\n')
+      done()
+
 describe 'instance', ->
 
   before -> @app = charge(basic_path, { log: false })

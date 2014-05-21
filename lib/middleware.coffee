@@ -8,3 +8,4 @@ module.exports =
   columnist: require 'morgan'
   pathologist: require 'pathologist-middleware'
   journalist: require 'infestor'
+  minimist: require 'compression'

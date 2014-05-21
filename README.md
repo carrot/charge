@@ -43,6 +43,7 @@ charge.pathologist
 charge.escapist
 charge.publicist
 charge.archivist
+charge.minimist
 charge.journalist
 charge.columnist
 charge.alchemist
@@ -56,6 +57,7 @@ Each of these are middleware functions, compatible with [connect](http://www.sen
 - [Escapist](https://github.com/carrot/escapist-middleware) (ignore files)
 - [Publicist](https://github.com/carrot/publicist-middleware) (basic auth)
 - [Archivist](https://github.com/carrot/archivist-middleware) (cache control)
+- [Minimist](https://github.com/expressjs/compression) (gzip content)
 - [Journalist](https://github.com/samccone/infestor) (inject content)
 - [Columnist](https://github.com/expressjs/morgan) (logging)
 - [Alchemist](https://github.com/carrot/alchemist-middleware) (static file server)

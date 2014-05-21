@@ -1,3 +1,4 @@
 {
-  "exclude": "/index.html"
+  "exclude": "/index.html",
+  "log": false
 }

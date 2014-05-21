@@ -22,6 +22,7 @@ module.exports = charge = (root, opts) ->
   opts = parse_options(root, opts)
   if opts.root then root = path.resolve(opts.root)
   if typeof opts.websockets == 'undefined' then opts.websockets = true
+  if opts.gzip == true then opts.gzip = { threshold: 0 }
   if opts.write then opts.gzip = false
   if typeof opts.log == 'undefined' then opts.log = 'dev'
 
@@ -32,6 +33,7 @@ module.exports = charge = (root, opts) ->
   if opts.exclude       then app.use(m.escapist(opts.exclude))
   if opts.auth          then app.use(m.publicist(opts.auth))
   if opts.cache_control then app.use(m.archivist(opts.cache_control))
+  if opts.gzip          then app.use(m.minimist(opts.gzip))
   if opts.write         then app.use(m.journalist(opts.write))
   if opts.log           then app.use(m.columnist(opts.log))
 

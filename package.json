@@ -1,6 +1,6 @@
 {
   "name": "charge",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Carrot Creative <dev@carrotcreative.com>",
   "description": "A bundle of useful middleware and other tools for serving static sites",
   "license": "MIT",

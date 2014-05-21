@@ -79,7 +79,6 @@ describe 'options', ->
     app = charge(opts_path, 'alchemist.json')
 
     chai.request(app).get('/test').res (res) ->
-      should.not.exist(res.headers['content-encoding'])
       res.should.have.status(200)
       done()
 

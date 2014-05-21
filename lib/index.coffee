@@ -35,7 +35,11 @@ module.exports = charge = (root, opts) ->
   if opts.write         then app.use(m.journalist(opts.write))
   if opts.log           then app.use(m.columnist(opts.log))
 
-  app.use(m.alchemist(root, { url: opts.url, gzip: opts.gzip }))
+  if opts.url
+    app.use(opts.url, m.alchemist(root))
+  else
+    app.use(m.alchemist(root))
+
   app.use(m.apologist(root, opts.error_page))
 
   extend(app, { start: start.bind(app, opts.websockets) })

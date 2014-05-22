@@ -26,6 +26,16 @@ module.exports = charge = (root, opts) ->
   if opts.write then opts.gzip = false
   if typeof opts.log == 'undefined' then opts.log = 'dev'
 
+  # If opts.spa is true, then define a standard SPA route
+  # in opts.routes and force hygienist use.
+  if opts.spa is true
+    opts.clean_urls = true
+    opts.routes = extend (opts.routes or {}),
+      "!*.*": "/index.html"
+      "!**/*.*": "/index.html"
+      "*.html": "/index.html"
+      "**/*.html": "/index.html"
+
   app = connect()
 
   if opts.clean_urls    then app.use(m.hygienist(root))

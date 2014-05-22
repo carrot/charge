@@ -75,6 +75,13 @@ describe 'options', ->
       res.should.have.status(200)
       done()
 
+  it 'should use default SPA route if opts.spa = true', (done) ->
+    app = charge(opts_path, 'spa.json')
+
+    chai.request(app).get('/spa').res (res) ->
+      res.should.have.status(200)
+      done()
+
   it 'should modify alchemist settings if url and/or gzip are passed', (done) ->
     app = charge(opts_path, 'alchemist.json')
 

@@ -1,0 +1,15 @@
+{
+  "name": "customize_middleware",
+  "version": "0.0.0",
+  "description": "In this example, we'll replace charge's logger of choice [morgan](https://github.com/expressjs/morgan) with [connect's built-in logger](http://www.senchalabs.org/connect/logger.html).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "connect": "~2.17.1"
+  }
+}

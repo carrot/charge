@@ -75,12 +75,49 @@ describe 'options', ->
       res.should.have.status(200)
       done()
 
-  it 'should use default SPA route if opts.spa = true', (done) ->
+  it 'should match clean route to index.html', (done) ->
     app = charge(opts_path, 'spa.json')
 
     chai.request(app).get('/spa').res (res) ->
       res.should.have.status(200)
       done()
+
+  describe 'spa', ->
+
+    it 'should match route w/o extension', (done) ->
+      app = charge(opts_path, 'spa.json')
+
+      chai.request(app).get('/spa').res (res) ->
+        res.should.have.status(200)
+        done()
+
+    it 'should not match route w/ extension that is not .html or .htm', (done) ->
+      app = charge(opts_path, 'spa.json')
+
+      chai.request(app).get('/spa.foo').res (res) ->
+        res.should.have.status(404)
+        done()
+
+    it 'should not match nested route w/ extension that is not .html or .htm', (done) ->
+      app = charge(opts_path, 'spa.json')
+
+      chai.request(app).get('/foo/bar.doge').res (res) ->
+        res.should.have.status(404)
+        done()
+
+    it 'should match route w/ extension that is .html', (done) ->
+      app = charge(opts_path, 'spa.json')
+
+      chai.request(app).get('/index.html').res (res) ->
+        res.should.have.status(200)
+        done()
+
+    it 'should match nested route w/ extension that is .html', (done) ->
+      app = charge(opts_path, 'spa.json')
+
+      chai.request(app).get('/foo/index.html').res (res) ->
+        res.should.have.status(200)
+        done()
 
   it 'should modify alchemist settings if url and/or gzip are passed', (done) ->
     app = charge(opts_path, 'alchemist.json')

@@ -31,9 +31,9 @@ module.exports = charge = (root, opts) ->
   if opts.spa is true
     opts.clean_urls = true
     opts.routes = extend (opts.routes or {}),
-      "!*.*": "/index.html"
-      "!**/*.*": "/index.html"
-      "*.html": "/index.html"
+      "./!(*.*)": "/index.html"
+      "**/!(*.*)": "/index.html"
+      "./*.html": "/index.html"
       "**/*.html": "/index.html"
 
   app = connect()

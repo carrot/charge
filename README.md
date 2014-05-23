@@ -84,6 +84,7 @@ Charge accepts options for each piece of middleware that it unifies (which is a 
 ```js
 {
   "clean_urls": true,
+  "spa": true, # Uses clean_urls and pathologist to direct all clean routes to index.html
   "error_page": "error.html",
   "auth": "username:password",
   "exclude": ['some_file', '*/another.file'],

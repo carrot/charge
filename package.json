@@ -39,7 +39,7 @@
     "alchemist-middleware": "0.0.4",
     "apology-middleware": "0.0.4",
     "publicist-middleware": "0.0.1",
-    "infestor": "0.2.0",
+    "infestor": "^0.3.0",
     "connect": "3.x",
     "pathologist-middleware": "0.0.1",
     "lodash.assign": "^2.4.1",

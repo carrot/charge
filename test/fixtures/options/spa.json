@@ -1,3 +1,4 @@
 {
-  "spa": true
+  "spa": true,
+  "log": false
 }

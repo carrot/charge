@@ -37,6 +37,7 @@ module.exports = charge = (root, opts) ->
 
   app = connect()
 
+  if opts.favicon       then app.use(m.egoist(path.join(root, opts.favicon)))
   if opts.clean_urls    then app.use(m.hygienist(root))
   if opts.routes        then app.use(m.pathologist(opts.routes))
   if opts.exclude       then app.use(m.escapist(opts.exclude))
@@ -153,6 +154,9 @@ initialize_websockets = ->
  * @exports publicist
  * @exports pathologist
  * @exports journalist
+ * @exports minimist
+ * @exports columnist
+ * @exports egoist
 ###
 
 extend(module.exports, m)

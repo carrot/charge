@@ -38,6 +38,7 @@ The `charge` module itself is a function you can call to get a decorated connect
 ```js
 var charge = require('charge');
 
+charge.egoist
 charge.hygienist
 charge.pathologist
 charge.escapist
@@ -52,6 +53,7 @@ charge.apologist
 
 Each of these are middleware functions, compatible with [connect](http://www.senchalabs.org/connect/), [express](http://expressjs.com/4x/api.html#middleware) and similar middleware stacks. More details on each piece of middleware below:
 
+- [Egoist](https://github.com/expressjs/serve-favicon) (favicon)
 - [Hygienist](https://github.com/carrot/hygienist-middleware) (clean urls)
 - [Pathologist](https://github.com/carrot/pathologist-middleware) (custom routes)
 - [Escapist](https://github.com/carrot/escapist-middleware) (ignore files)
@@ -93,7 +95,8 @@ Charge accepts options for each piece of middleware that it unifies (which is a 
   "write": { content: "hello!" },
   "url": "/static",
   "gzip": true,
-  "log": "tiny"
+  "log": "tiny",
+  "favicon": "/path/to/custom.ico"
 }
 ```
 

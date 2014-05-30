@@ -15,7 +15,10 @@ describe 'module', ->
     charge.alchemist.should.be.a 'function'
     charge.apologist.should.be.a 'function'
     charge.publicist.should.be.a 'function'
+    charge.pathologist.should.be.a 'function'
     charge.columnist.should.be.a 'function'
+    charge.minimist.should.be.a 'function'
+    charge.egoist.should.be.a 'function'
 
 describe 'options', ->
 
@@ -80,6 +83,15 @@ describe 'options', ->
 
     chai.request(app).get('/spa').res (res) ->
       res.should.have.status(200)
+      done()
+
+  it 'should serve index.html properly when favicon is set', (done) ->
+    app = charge(opts_path, 'favicon.json')
+
+    chai.request(app).get('/index.html').res (res) ->
+      res.should.have.status(200)
+      res.should.have.be.html
+      res.text.should.equal('<p>wow</p>\n')
       done()
 
   describe 'spa', ->

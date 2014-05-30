@@ -9,3 +9,4 @@ module.exports =
   pathologist: require 'pathologist-middleware'
   journalist: require 'infestor'
   minimist: require 'compression'
+  egoist: require 'serve-favicon'

@@ -21,10 +21,10 @@ module.exports = charge = (root, opts) ->
   root = path.resolve(root)
   opts = parse_options(root, opts)
   if opts.root then root = path.resolve(opts.root)
-  if typeof opts.websockets == 'undefined' then opts.websockets = true
-  if opts.gzip == true then opts.gzip = { threshold: 0 }
+  opts.websockets ?= true
+  if opts.gzip then opts.gzip = threshold: 0
   if opts.write then opts.gzip = false
-  if typeof opts.log == 'undefined' then opts.log = 'dev'
+  opts.log ?= 'dev'
 
   # If opts.spa is true, force hygienist, add appropriate routes
   if opts.spa is true
@@ -70,13 +70,9 @@ module.exports = charge = (root, opts) ->
 
 start = (ws_enabled, port = 1111, cb) ->
   if typeof port is 'function' then cb = port; port = 1111
-
   @server = http.createServer(@).listen(port, cb)
-
   extend(@server, { send: send.bind(@server, ws_enabled) })
-
   if ws_enabled then initialize_websockets.call(@server)
-
   return @server
 
 ###*
@@ -139,9 +135,9 @@ initialize_websockets = ->
     ws.id = uuid.v1()
 
     ws.on('open', (e) => @sockets.push(ws); @emit('client_open', e))
-    ws.on('message', @emit.bind(@, 'message'))
+    ws.on('message', @emit.bind(this, 'message'))
     ws.on 'close', (e) =>
-      remove(@sockets, (s) -> s.id == ws.id)
+      remove(@sockets, (s) -> s.id is ws.id)
       @emit('client_close', e)
 
 ###*

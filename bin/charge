@@ -3,10 +3,14 @@
 require('coffee-script/register');
 require('colors');
 var cli = require('../lib/cli'),
-    notifier = require('update-notifier')({ packagePath: '../package.json' });
+    pkg = require('../package.json'),
+    notifier = require('update-notifier')({
+      packageName: pkg.name,
+      packageVersion: pkg.version
+    });
 
 // new version notification
-notifier.update && notifier.notify();
+notifier.notify();
 
 // log out data
 cli.on('success', function(m){ console.log(("✓ " + m).green) });

@@ -13,14 +13,15 @@
     "charge": "bin/charge"
   },
   "devDependencies": {
-    "mocha": "*",
     "chai": "*",
-    "coffeelint": "*",
-    "istanbul": "*",
-    "mocha-lcov-reporter": "*",
-    "coveralls": "*",
-    "coffee-script": "1.7.x",
+    "chai-fs": "0.0.3",
     "chai-http": "^0.4.0",
+    "coffee-script": "1.7.x",
+    "coffeelint": "*",
+    "coveralls": "*",
+    "istanbul": "*",
+    "mocha": "*",
+    "mocha-lcov-reporter": "*",
     "websocket-driver": "^0.3.4"
   },
   "scripts": {
@@ -39,18 +40,18 @@
     "alchemist-middleware": "0.0.4",
     "apology-middleware": "0.0.4",
     "publicist-middleware": "0.0.1",
-    "infestor": "^0.3.0",
+    "infestor": "0.3.x",
     "connect": "3.x",
     "pathologist-middleware": "0.0.1",
-    "lodash.assign": "^2.4.1",
-    "faye-websocket": "^0.7.2",
-    "node-uuid": "^1.4.1",
-    "lodash.remove": "^2.4.1",
-    "minimist": "^0.1.0",
-    "update-notifier": "^0.1.8",
-    "colors": "^0.6.2",
+    "lodash.assign": "2.x",
+    "faye-websocket": "0.7.x",
+    "node-uuid": "1.x",
+    "lodash.remove": "2.x",
+    "minimist": "0.2.x",
+    "update-notifier": "0.2.x",
+    "colors": "0.6.x",
     "anti-matter": "0.0.1",
-    "morgan": "1.1.x",
-    "compression": "^1.0.2"
+    "morgan": "1.x",
+    "compression": "1.x"
   }
 }

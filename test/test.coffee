@@ -27,17 +27,19 @@ describe 'options', ->
 
   it 'should load from a default config if no options provided', ->
     charge(path.join(base_path, 'charge-json')).stack.should.have.lengthOf(4)
-    charge(path.join(base_path, 'superstatic-json')).stack.should.have.lengthOf(4)
+    charge(path.join(base_path, 'superstatic-json'))
+      .stack.should.have.lengthOf(4)
     charge(path.join(base_path, 'divshot-json')).stack.should.have.lengthOf(4)
 
   it 'should have no options if no default configs present', ->
-    charge(basic_path).stack.should.have.lengthOf(3)
+    charge(basic_path).stack.should.have.lengthOf(4)
 
   it 'should throw if invalid options passed', ->
     (-> charge(basic_path, false)).should.throw('invalid options')
 
   it 'should override root if root option is passed', ->
-    charge(basic_path, { root: path.join(base_path, 'alt') }).stack.should.have.lengthOf(3)
+    charge(basic_path, { root: path.join(base_path, 'alt') })
+      .stack.should.have.lengthOf(4)
 
   it 'should use clean urls if clean_urls is passed', (done) ->
     app = charge(opts_path, 'clean_urls.json')
@@ -91,14 +93,14 @@ describe 'options', ->
         res.should.have.status(200)
         done()
 
-    it 'should not match route w/ extension that is not .html or .htm', (done) ->
+    it 'should not match route w/ ext that is not .html or .htm', (done) ->
       app = charge(opts_path, 'spa.json')
 
       chai.request(app).get('/spa.foo').end (err, res) ->
         res.should.have.status(404)
         done()
 
-    it 'should not match nested route w/ extension that is not .html or .htm', (done) ->
+    it "should not match nested route w/ ext that isn't .html / .htm", (done) ->
       app = charge(opts_path, 'spa.json')
 
       chai.request(app).get('/foo/bar.doge').end (err, res) ->
@@ -164,7 +166,7 @@ describe 'instance', ->
     (=> http.createServer(@app)).should.not.throw()
 
   it 'should have all middleware attached (except logging)', ->
-    @app.stack.should.have.lengthOf(2)
+    @app.stack.should.have.lengthOf(3)
 
   it 'should serve static files', (done) ->
     chai.request(@app).get('/').end (err, res) ->
@@ -176,11 +178,11 @@ describe 'instance', ->
     @app.start.should.be.a 'function'
     server = @app.start =>
       server.close =>
-        server2 = @app.start =>
+        server2 = @app.start ->
           server2.close(done)
 
   it 'should accept a custom port to the start method', (done) ->
-    server = @app.start 1234, =>
+    server = @app.start 1234, ->
       server._connectionKey.should.match(/1234$/)
       server.close(done)
 
@@ -206,7 +208,7 @@ describe 'websockets', ->
       msg.should.equal("{\"test\":\"wow\"}")
       driver.close()
 
-    tcp.on 'connect', =>
+    tcp.on 'connect', ->
       # 2. connect the client mock to the server
       driver.start()
 

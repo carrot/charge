@@ -13,16 +13,16 @@
     "charge": "bin/charge"
   },
   "devDependencies": {
-    "chai": "1.x",
+    "chai": "2.1.x",
     "chai-fs": "0.1.x",
-    "chai-http": "0.4.x",
-    "coffee-script": "1.8.x",
+    "chai-http": "1.0.x",
+    "coffee-script": "1.9.x",
     "coffeelint": "1.x",
     "coveralls": "2.x",
     "istanbul": "0.3.x",
-    "mocha": "1.x",
-    "mocha-lcov-reporter": "0.0.1",
-    "websocket-driver": "0.3.x"
+    "mocha": "2.2.x",
+    "mocha-lcov-reporter": "0.0.2",
+    "websocket-driver": "0.5.x"
   },
   "dependencies": {
     "hygienist-middleware": "0.0.3",

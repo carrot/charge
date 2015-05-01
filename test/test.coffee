@@ -42,14 +42,14 @@ describe 'options', ->
   it 'should use clean urls if clean_urls is passed', (done) ->
     app = charge(opts_path, 'clean_urls.json')
 
-    chai.request(app).get('/index.html').res (res) ->
+    chai.request(app).get('/index.html').end (err, res) ->
       res.redirects[0].should.match /index$/
       done()
 
   it 'should exclude files if exclude is passed', (done) ->
     app = charge(opts_path, 'exclude.json')
 
-    chai.request(app).get('/index.html').res (res) ->
+    chai.request(app).get('/index.html').end (err, res) ->
       res.should.have.status(404)
       res.should.be.html
       done()
@@ -57,28 +57,28 @@ describe 'options', ->
   it 'should use basic auth if auth is passed', (done) ->
     app = charge(opts_path, 'auth.json')
 
-    chai.request(app).get('/').res (res) ->
+    chai.request(app).get('/').end (err, res) ->
       res.should.have.status(401)
       done()
 
   it 'should cache correctly if cache_control is passed', (done) ->
     app = charge(opts_path, 'cache_control.json')
 
-    chai.request(app).get('/').res (res) ->
+    chai.request(app).get('/').end (err, res) ->
       res.headers['cache-control'].should.equal('wow')
       done()
 
   it 'should use custom routes if routes is passed', (done) ->
     app = charge(opts_path, 'routes.json')
 
-    chai.request(app).get('/foobar.html').res (res) ->
+    chai.request(app).get('/foobar.html').end (err, res) ->
       res.should.have.status(200)
       done()
 
   it 'should match clean route to index.html', (done) ->
     app = charge(opts_path, 'spa.json')
 
-    chai.request(app).get('/spa').res (res) ->
+    chai.request(app).get('/spa').end (err, res) ->
       res.should.have.status(200)
       done()
 
@@ -87,49 +87,49 @@ describe 'options', ->
     it 'should match route w/o extension', (done) ->
       app = charge(opts_path, 'spa.json')
 
-      chai.request(app).get('/spa').res (res) ->
+      chai.request(app).get('/spa').end (err, res) ->
         res.should.have.status(200)
         done()
 
     it 'should not match route w/ extension that is not .html or .htm', (done) ->
       app = charge(opts_path, 'spa.json')
 
-      chai.request(app).get('/spa.foo').res (res) ->
+      chai.request(app).get('/spa.foo').end (err, res) ->
         res.should.have.status(404)
         done()
 
     it 'should not match nested route w/ extension that is not .html or .htm', (done) ->
       app = charge(opts_path, 'spa.json')
 
-      chai.request(app).get('/foo/bar.doge').res (res) ->
+      chai.request(app).get('/foo/bar.doge').end (err, res) ->
         res.should.have.status(404)
         done()
 
     it 'should match route w/ extension that is .html', (done) ->
       app = charge(opts_path, 'spa.json')
 
-      chai.request(app).get('/index.html').res (res) ->
+      chai.request(app).get('/index.html').end (err, res) ->
         res.should.have.status(200)
         done()
 
     it 'should match nested route w/ extension that is .html', (done) ->
       app = charge(opts_path, 'spa.json')
 
-      chai.request(app).get('/foo/index.html').res (res) ->
+      chai.request(app).get('/foo/index.html').end (err, res) ->
         res.should.have.status(200)
         done()
 
   it 'should modify alchemist settings if url and/or gzip are passed', (done) ->
     app = charge(opts_path, 'alchemist.json')
 
-    chai.request(app).get('/test').res (res) ->
+    chai.request(app).get('/test').end (err, res) ->
       res.should.have.status(200)
       done()
 
   it 'should use a custom error page if error_page is passed', (done) ->
     app = charge(opts_path, 'error_page.json')
 
-    chai.request(app).get('/foo').res (res) ->
+    chai.request(app).get('/foo').end (err, res) ->
       res.should.have.status(404)
       res.should.be.html
       res.text.should.equal("<p>flagrant error!</p>\n")
@@ -138,7 +138,7 @@ describe 'options', ->
   it 'should inject content if write is passed', (done) ->
     app = charge(opts_path, 'write.json')
 
-    chai.request(app).get('/infestor.html').res (res) ->
+    chai.request(app).get('/infestor.html').end (err, res) ->
       res.should.have.status(200)
       res.should.have.be.html
       res.text.should.match /hello there!/
@@ -147,7 +147,7 @@ describe 'options', ->
   it 'should gzip content if gzip is passed', (done) ->
     app = charge(opts_path, 'gzip.json')
 
-    chai.request(app).get('/').res (res) ->
+    chai.request(app).get('/').end (err, res) ->
       res.headers['content-encoding'].should.equal('gzip')
       res.should.have.status(200)
       res.should.have.be.html
@@ -167,7 +167,7 @@ describe 'instance', ->
     @app.stack.should.have.lengthOf(2)
 
   it 'should serve static files', (done) ->
-    chai.request(@app).get('/').res (res) ->
+    chai.request(@app).get('/').end (err, res) ->
       res.should.have.status(200)
       res.text.should.equal('<p>hello world!</p>\n')
       done()
@@ -230,7 +230,7 @@ describe 'cli', ->
     process.chdir(path.join(base_path, 'basic'))
 
     cli.once 'success', ->
-      chai.request('http://localhost:1111').get('/').res (res) ->
+      chai.request('http://localhost:1111').get('/').end (err, res) ->
         res.should.have.status(200)
         res.text.should.equal("<p>hello world!</p>\n")
         process.chdir(cwd)
@@ -241,7 +241,7 @@ describe 'cli', ->
   it 'should run a server in a passed in directory', (done) ->
     cli.once 'success', (msg) ->
       msg.should.equal('server started on port 1111')
-      chai.request('http://localhost:1111').get('/').res (res) ->
+      chai.request('http://localhost:1111').get('/').end (err, res) ->
         res.should.have.status(200)
         res.text.should.equal("<p>hello world!</p>\n")
         server.close(done)
@@ -250,7 +250,7 @@ describe 'cli', ->
 
   it 'should use a custom config file if --config is passed', (done) ->
     cli.once 'success', ->
-      chai.request('http://localhost:1111').get('/index.html').res (res) ->
+      chai.request('http://localhost:1111').get('/index.html').end (err, res) ->
         res.should.have.status(200)
         res.redirects[0].should.match /index$/
         server.close(done)
@@ -259,7 +259,7 @@ describe 'cli', ->
 
   it 'should use a custom port if --port is passed', (done) ->
     cli.once 'success', ->
-      chai.request('http://localhost:1234').get('/').res (res) ->
+      chai.request('http://localhost:1234').get('/').end (err, res) ->
         res.should.have.status(200)
         server.close(done)
 

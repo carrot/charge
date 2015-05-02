@@ -22,6 +22,7 @@ module.exports = charge = (root, opts) ->
   opts = parse_options(root, opts)
   if opts.root then root = path.resolve(opts.root)
   opts.websockets ?= true
+  opts.clean_urls ?= true
   if opts.gzip then opts.gzip = threshold: 0
   if opts.write then opts.gzip = false
   opts.log ?= 'dev'

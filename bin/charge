@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 require('coffee-script/register');
-require('colors');
+var chalk = require('chalk');
+
 var cli = require('../lib/cli'),
     pkg = require('../package.json'),
     notifier = require('update-notifier')({
@@ -13,7 +14,7 @@ var cli = require('../lib/cli'),
 notifier.notify();
 
 // log out data
-cli.on('success', function(m){ console.log(("✓ " + m).green) });
+cli.on('success', function(m){ console.log(chalk.green("✓ " + m)) });
 cli.on('data', console.log.bind(console));
 
 // run the command

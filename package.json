@@ -11,7 +11,7 @@
     "anti-matter": "0.0.1",
     "apology-middleware": "0.0.4",
     "archivist-middleware": "0.0.2",
-    "colors": "1.1.x",
+    "chalk": "1.0.x",
     "compression": "1.x",
     "connect": "3.x",
     "escapist-middleware": "0.0.2",

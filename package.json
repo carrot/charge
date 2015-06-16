@@ -1,7 +1,7 @@
 {
   "name": "charge",
   "description": "A bundle of useful middleware and other tools for serving static sites",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Carrot Creative <dev@carrotcreative.com>",
   "bin": {
     "charge": "bin/charge"

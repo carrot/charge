@@ -1,16 +1,31 @@
 {
   "name": "charge",
+  "description": "A bundle of useful middleware and other tools for serving static sites",
   "version": "0.0.3",
   "author": "Carrot Creative <dev@carrotcreative.com>",
-  "description": "A bundle of useful middleware and other tools for serving static sites",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/carrot/charge.git"
-  },
-  "main": "lib",
   "bin": {
     "charge": "bin/charge"
+  },
+  "dependencies": {
+    "alchemist-middleware": "0.0.4",
+    "anti-matter": "0.0.1",
+    "apology-middleware": "0.0.4",
+    "archivist-middleware": "0.0.2",
+    "chalk": "1.0.x",
+    "compression": "1.x",
+    "connect": "3.x",
+    "escapist-middleware": "0.0.2",
+    "faye-websocket": "0.9.x",
+    "hygienist-middleware": "0.0.3",
+    "infestor": "0.3.x",
+    "lodash.assign": "3.x",
+    "lodash.remove": "3.1.x",
+    "minimist": "1.x",
+    "morgan": "1.x",
+    "node-uuid": "1.x",
+    "pathologist-middleware": "0.0.1",
+    "publicist-middleware": "0.0.1",
+    "update-notifier": "0.5.x"
   },
   "devDependencies": {
     "chai": "1.x",
@@ -24,34 +39,19 @@
     "mocha-lcov-reporter": "0.0.2",
     "websocket-driver": "0.5.x"
   },
-  "dependencies": {
-    "hygienist-middleware": "0.0.3",
-    "escapist-middleware": "0.0.2",
-    "archivist-middleware": "0.0.2",
-    "alchemist-middleware": "0.0.4",
-    "apology-middleware": "0.0.4",
-    "publicist-middleware": "0.0.1",
-    "infestor": "0.3.x",
-    "connect": "3.x",
-    "pathologist-middleware": "0.0.1",
-    "lodash.assign": "3.x",
-    "faye-websocket": "0.9.x",
-    "node-uuid": "1.x",
-    "lodash.remove": "3.1.x",
-    "minimist": "1.x",
-    "update-notifier": "0.4.x",
-    "colors": "1.1.x",
-    "anti-matter": "0.0.1",
-    "morgan": "1.x",
-    "compression": "1.x"
-  },
-  "scripts": {
-    "test": "npm run lint && mocha",
-    "lint": "find lib -name '*.coffee' | xargs coffeelint",
-    "coverage": "make build; istanbul cover _mocha --report html -- -R spec && open coverage/index.html && make unbuild",
-    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild"
-  },
   "engines": {
     "node": ">=0.10.0"
+  },
+  "license": "MIT",
+  "main": "lib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/carrot/charge.git"
+  },
+  "scripts": {
+    "coverage": "make build; istanbul cover _mocha --report html -- -R spec && open coverage/index.html && make unbuild",
+    "coveralls": "make build; istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage; make unbuild",
+    "lint": "find lib -name '*.coffee' | xargs coffeelint",
+    "test": "npm run lint && mocha"
   }
 }

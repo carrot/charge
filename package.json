@@ -37,7 +37,7 @@
     "istanbul": "0.3.x",
     "mocha": "2.x",
     "mocha-lcov-reporter": "0.0.2",
-    "websocket-driver": "0.5.x"
+    "websocket-driver": "0.6.x"
   },
   "engines": {
     "node": ">=0.10.0"

@@ -1,4 +1,5 @@
 http       = require 'http'
+path       = require 'path'
 net        = require 'net'
 websocket  = require 'websocket-driver'
 cli        = require '../lib/cli'
